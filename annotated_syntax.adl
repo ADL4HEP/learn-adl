@@ -39,7 +39,7 @@ object newobject
 # Example:
 object jets
   take slimmedJets
-  select pT > 30
+  select pt > 30
   select abs(eta) < 2.4
 
 
@@ -93,21 +93,21 @@ object cleanedJets
 # - obj[i]   : ith instance of the object
 # IMPORTANT: For algorithmic consistency, first request the reuired object multiplicity using size(obj)
 # .... e.g. select size(obj) > i
-# Slices:
-# - obj[i:j] : loop from index i to j
-# - obj[:i]  : loop from beginning to i
-# - obj[i:]  : loop from i to end
-# Loops combined with reducers like sum(), min(), max().
+# Slices (Python-style, half-open: start is included, end is not):
+# - obj[i:j] : instances at indices i, i+1, ..., j-1 (length j - i)
+# - obj[:n]  : the first n instances (indices 0 to n-1)
+# - obj[i:]  : instances from index i to the end
+# Slices combine with reducers like sum(), min(), max().
 
 
 region accessExamples
   select size(jets) >= 3  # at least 3 jets
-  select pT(jets[0]) > 30  # Leading jet pT 
+  select pt(jets[0]) > 30  # Leading jet pt 
   select eta(jets[1]) < 2.4  # Second-leading jet eta
-  select max(mass(jets[:1])) > 100  # Max mass among first 4 jets
-  select sum(pT(jets[:2])) > 200  # Sum pT of first 4 jets
+  select max(mass(jets[:4])) > 100  # Max mass among the first 4 jets
+  select sum(pt(jets[:4])) > 200  # Sum of pt over the first 4 jets
 
-# Note: Objects such as jets are assumed to be pT-ordered by default.
+# Note: Objects such as jets are assumed to be pt-ordered by default.
 
 region sliceExample
   select min(dphi(jets[:3], METLV[0])) > 0.5
@@ -126,7 +126,7 @@ object isoElectrons
 # Example of any/all usage inside a region block
 region goodEventRegion
   select any(mass(jets[:3]) > 200)  # Any of the leading 3 jets has mass > 200
-  select all(pT(jets) > 30)         # All jets have pT > 30
+  select all(pt(jets) > 30)         # All jets have pt > 30
 
 
 # --------------------------------------------------
@@ -155,9 +155,9 @@ composite Zcands
 define newvariable = operation(attribute1, attribute2)
 
 # Example:
-define HT = sum(pT(jets))
+define HT = sum(pt(jets))
 
-define MTl = sqrt(2*pT(leptons[0])*MET*(1-cos(phi(METLV[0])-phi(leptons[0]))))
+define MTl = sqrt(2*pt(leptons[0])*MET*(1-cos(phi(METLV[0])-phi(leptons[0]))))
 
 
 # --------------------------------------------------
