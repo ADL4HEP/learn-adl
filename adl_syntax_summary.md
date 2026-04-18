@@ -38,7 +38,7 @@ Blocks used in core analysis algorithm description:
 | Statement | Purpose | Example |
 |:--------|:--------|:--------|
 | define  | Define a new attribute inside a block or a global event variable outside of blocks | `define HT = sum(pT(goodJets))` |
-| this    | Refers to the current instance inside object or composite blocks | `select dR(this, jets) > 0.4` |
+| this    | Refers to the current instance inside object or composite blocks. Used only when the object itself, not an attribute of it, needs to be referred to (e.g. angular separation calculations) | `select dR(this, jets) > 0.4` |
 
 ### Operators
 | Operator | Purpose |
@@ -52,8 +52,8 @@ Blocks used in core analysis algorithm description:
 ### Collection and Reducer Functions
 | Function | Purpose | Example Usage |
 |:---------|:--------|:--------------|
-| union(a, b) | Merge two collections | `take union(electrons, muons)` |
-| sort(collection, expression) | Sort a collection by a custom expression | `take sort(jets, pT)` |
+| union(a, b, c, ...) | Merge n collections | `take union(electrons, muons, taus)` |
+| sort(collection, expression, direction) | Sort a collection by a custom expression | `take sort(jets, pT, descend)` |
 | sum(expression) | Sum over a collection | `define HT = sum(pT(jets))` |
 | min(expression) | Minimum over a collection | `select min(dphi(jets, MET)) > 0.4` |
 | max(expression) | Maximum over a collection | `select max(pT(jets[:3])) > 100` |
